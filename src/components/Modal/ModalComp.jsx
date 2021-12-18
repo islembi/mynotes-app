@@ -1,7 +1,14 @@
 import React, { useState } from "react"
 import { Modal, Button, InputGroup, FormControl } from "react-bootstrap"
 
-export default function ModalComp({ titre, setTitre, ajout }) {
+export default function ModalComp({
+  titreButton,
+  titre,
+  setTitre,
+  ajout,
+  modifierTitre,
+  id,
+}) {
   const [show, setShow] = useState(false)
 
   const handleClose = () => setShow(false)
@@ -10,7 +17,7 @@ export default function ModalComp({ titre, setTitre, ajout }) {
   return (
     <>
       <Button variant="primary" onClick={handleShow}>
-        Ajouter un Carnet
+        {titreButton}
       </Button>
 
       <Modal
@@ -41,7 +48,11 @@ export default function ModalComp({ titre, setTitre, ajout }) {
           </Button>
           <Button
             variant="primary"
-            onClick={() => [handleClose(), ajout(titre)]}
+            onClick={
+              titreButton === "Ajouter un Carnet"
+                ? () => [handleClose(), ajout(titre)]
+                : () => [handleClose(), modifierTitre(id)]
+            }
           >
             Understood
           </Button>
