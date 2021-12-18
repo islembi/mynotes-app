@@ -1,18 +1,31 @@
-import React, { useState } from "react"
+import React, { useState, useEffect} from "react"
 import Carnet from "../Carnet/Carnet"
 import ModalComp from "../Modal/ModalComp"
 import uuid from "react-uuid"
 import "./Navbar.css"
 export default function Navbar() {
   const [titre, setTitre] = useState("")
-  const [carnets, setCarnets] = useState([])
   const [rech, setRech] = useState("")
+  const [carnets, setCarnets] = useState(
+    localStorage.carnets ? JSON.parse(localStorage.carnets) : [])
+
+  useEffect(() => {
+    localStorage.setItem("carnets", JSON.stringify(carnets));
+  }, [carnets]);
 
   //ajout de carnet
   const ajout = (inputTitre) => {
     const tmp = [...carnets]
     tmp.push({ id: uuid(), titre: inputTitre, date: Date.now() })
     setCarnets(tmp)
+    setTitre("") 
+  }
+
+  const modifierTitre = (id) => {
+    const carnet = carnets.find((carnet) => carnet.id === id)
+    carnet.id = id
+    carnet.titre = titre
+    carnet.date = Date.now()
     setTitre("")
   }
   //recherche
@@ -32,18 +45,33 @@ export default function Navbar() {
       <div>
         <Carnet
           key={carnet.id}
-          titreCarnet={carnet.titre}
-          dateCarnet={carnet.date}
+                carnet={carnet}
+                titre={titre}
+                setTitre={setTitre}
+                modifierTitre={modifierTitre}
+                deleteCarnet={deleteCarnet}
         />
       </div>
     )
   })
 
+  function deleteCarnet(id){
+    let rep = window.confirm("vous voulez supprimer?" );
+    if(rep === false) return;
+    const tmp = carnets.filter(function(el) { return el.id != id; });
+    setCarnets(tmp);
+  } 
+  
   return (
     <div>
       <div className="sidebar-container">
         <div className="sidebar-logo">Projet NOTES</div>
-        <ModalComp titre={titre} setTitre={setTitre} ajout={ajout} />
+        <ModalComp
+          titreButton="Ajouter un Carnet"
+          titre={titre}
+          setTitre={setTitre}
+          ajout={ajout}
+        />
         <ul className="sidebar-navigation">
           <input
             className=""
@@ -57,6 +85,7 @@ export default function Navbar() {
           />
 
           <div> {ligneCarnet}</div>
+
 
           <li></li>
         </ul>
