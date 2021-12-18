@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, {useState, useEffect } from "react"
 import { Modal, Button, InputGroup, FormControl } from "react-bootstrap"
 
 export default function ModalComp({
@@ -13,6 +13,8 @@ export default function ModalComp({
 
   const handleClose = () => setShow(false)
   const handleShow = () => setShow(true)
+
+  
 
   return (
     <>

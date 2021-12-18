@@ -3,7 +3,7 @@ import { Card } from "react-bootstrap"
 import ModalComp from "../Modal/ModalComp"
 import "./Carnet.css"
 
-const Carnet = ({ carnet, titre, setTitre, modifierTitre }) => {
+const Carnet = ({ carnet, titre, setTitre, modifierTitre, deleteCarnet}) => {
   return (
     <div className="text-center">
       <Card>
@@ -27,8 +27,14 @@ const Carnet = ({ carnet, titre, setTitre, modifierTitre }) => {
             titre={titre}
             setTitre={setTitre}
           />
+          <p className="card-text">
+            <button onClick={()=>
+              deleteCarnet(carnet.id)} className="btn btn-sm btn-danger">Supprimer</button>
+         
+          </p>
         </Card.Body>
       </Card>
+
     </div>
   )
 }
