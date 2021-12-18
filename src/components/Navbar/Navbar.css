@@ -5,7 +5,7 @@
   left: 0;
   overflow-x: hidden;
   overflow-y: auto;
-  background: #1a1a1a;
+  background: rgb(182, 144, 144);
   color: #fff;
 }
 
@@ -16,7 +16,7 @@
 .sidebar-logo {
   padding: 10px 15px 10px 30px;
   font-size: 20px;
-  background-color: #2574a9;
+  background-color: rgb(151, 19, 41);
 }
 
 .sidebar-navigation {
@@ -37,7 +37,7 @@
 .sidebar-navigation li a {
   padding: 10px 15px 10px 30px;
   display: block;
-  color: #fff;
+  color: purple;
 }
 
 .sidebar-navigation li .fa {
@@ -52,7 +52,7 @@
 }
 
 .sidebar-navigation li::before {
-  background-color: #2574a9;
+  background-color: maroon;
   position: absolute;
   content: "";
   height: 100%;
@@ -81,4 +81,16 @@
 
 .content-container {
   padding-left: 220px;
+}
+.recherche {
+  margin-top: 10px;
+}
+
+.navbar {
+  background-color: rgb(182, 144, 144) !important;
+  margin-left: 220px;
+  height: 50px;
+}
+.navbar-brand {
+  margin-left: 500px;
 }
