@@ -1,8 +1,9 @@
 import React from "react"
 
-const Carnet = ({ titreCarnet, dateCarnet }) => {
+const Carnet = ({id, titreCarnet, dateCarnet, deleteCarnet }) => {
   return (
-    <div>
+    <div> 
+
       <h1>{titreCarnet}</h1>
       <h3>
         {new Date(dateCarnet).toLocaleDateString("en-GB", {
@@ -10,6 +11,12 @@ const Carnet = ({ titreCarnet, dateCarnet }) => {
           minute: "2-digit",
         })}
       </h3>
+       <p className="card-text">
+          <button onClick={()=>
+          deleteCarnet(id)} className="btn btn-sm btn-danger">Supprimer</button>
+         
+      </p>  
+      
     </div>
   )
 }
