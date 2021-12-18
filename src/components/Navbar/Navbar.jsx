@@ -5,6 +5,7 @@ import uuid from "react-uuid"
 import "./Navbar.css"
 export default function Navbar() {
   const [titre, setTitre] = useState("")
+  const [rech, setRech] = useState("")
   const [carnets, setCarnets] = useState(
     localStorage.carnets ? JSON.parse(localStorage.carnets) : [])
 
@@ -12,6 +13,7 @@ export default function Navbar() {
     localStorage.setItem("carnets", JSON.stringify(carnets));
   }, [carnets]);
 
+  //ajout de carnet
   const ajout = (inputTitre) => {
     const tmp = [...carnets]
     tmp.push({ id: uuid(), titre: inputTitre, date: Date.now() })
@@ -26,6 +28,32 @@ export default function Navbar() {
     carnet.date = Date.now()
     setTitre("")
   }
+  //recherche
+  function rechercher(strRech, liste) {
+    let tmpRech = strRech.toLowerCase()
+    let res = liste.filter((carnet) => {
+      let lowerCarnet = carnet.titre.toLowerCase()
+      if (lowerCarnet.indexOf(tmpRech) > -1) return carnet
+    })
+
+    return res
+  }
+
+  //recuperation de ligneCarnet
+  let ligneCarnet = rechercher(rech, carnets).map((carnet) => {
+    return (
+      <div>
+        <Carnet
+          key={carnet.id}
+                carnet={carnet}
+                titre={titre}
+                setTitre={setTitre}
+                modifierTitre={modifierTitre}
+                deleteCarnet={deleteCarnet}
+        />
+      </div>
+    )
+  })
 
   function deleteCarnet(id){
     let rep = window.confirm("vous voulez supprimer?" );
@@ -45,22 +73,26 @@ export default function Navbar() {
           ajout={ajout}
         />
         <ul className="sidebar-navigation">
+          <input
+            className=""
+            type="search"
+            value={rech}
+            onChange={(e) => {
+              setRech(e.target.value)
+            }}
+            className="form-control"
+            placeholder="Rechercher ..."
+          />
 
-          {carnets.map((carnet) => {
-            return (
-              <Carnet
-                key={carnet.id}
-                carnet={carnet}
-                titre={titre}
-                setTitre={setTitre}
-                modifierTitre={modifierTitre}
-                deleteCarnet={deleteCarnet}
-              />
-            )
-          })}
+          <div> {ligneCarnet}</div>
+
+
           <li></li>
         </ul>
       </div>
+      <nav className="navbar navbar-light bg-light">
+        <a className="navbar-brand">My Notes ✏</a>
+      </nav>
     </div>
   )
 }

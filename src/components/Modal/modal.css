@@ -1,0 +1,12 @@
+.buttonajout {
+  border-color: brown;
+  background-color: rgb(134, 71, 71) !important;
+  padding: 10px 30px;
+  align-items: center;
+  margin-left: 15px;
+  margin-top: 10px;
+}
+.bmodal {
+  background-color: brown !important;
+  align-self: "center" !important;
+}

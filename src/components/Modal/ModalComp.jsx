@@ -1,5 +1,6 @@
 import React, {useState, useEffect } from "react"
 import { Modal, Button, InputGroup, FormControl } from "react-bootstrap"
+import "./modal.css"
 
 export default function ModalComp({
   titreButton,
@@ -18,8 +19,8 @@ export default function ModalComp({
 
   return (
     <>
-      <Button variant="primary" onClick={handleShow}>
-        {titreButton}
+      <Button className="buttonajout" onClick={handleShow}>
+       {titreButton}
       </Button>
 
       <Modal
@@ -29,7 +30,7 @@ export default function ModalComp({
         keyboard={false}
       >
         <Modal.Header closeButton>
-          <Modal.Title>Saisir un titre</Modal.Title>
+          <Modal.Title>ajoutez un carnet ici..</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <InputGroup className="mb-3">
@@ -45,10 +46,8 @@ export default function ModalComp({
           </InputGroup>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
-            Close
-          </Button>
           <Button
+            className="bmodal"
             variant="primary"
             onClick={
               titreButton === "Ajouter un Carnet"
@@ -56,7 +55,7 @@ export default function ModalComp({
                 : () => [handleClose(), modifierTitre(id)]
             }
           >
-            Understood
+            ajouter
           </Button>
         </Modal.Footer>
       </Modal>
