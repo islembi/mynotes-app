@@ -18,31 +18,42 @@ export default function Navbar() {
     setCarnets(tmp)
     setTitre("") 
   }
+
+  const modifierTitre = (id) => {
+    const carnet = carnets.find((carnet) => carnet.id === id)
+    carnet.id = id
+    carnet.titre = titre
+    carnet.date = Date.now()
+    setTitre("")
+  }
+
   function deleteCarnet(id){
-    //confirm("Etes vous sure de vouloir supprtmer")
     let rep = window.confirm("vous voulez supprimer?" );
     if(rep === false) return;
     const tmp = carnets.filter(function(el) { return el.id != id; });
     setCarnets(tmp);
   } 
-
-  
-
   
   return (
     <div>
       <div className="sidebar-container">
         <div className="sidebar-logo">Projet NOTES</div>
-        <ModalComp titre={titre} setTitre={setTitre} ajout={ajout} />
+        <ModalComp
+          titreButton="Ajouter un Carnet"
+          titre={titre}
+          setTitre={setTitre}
+          ajout={ajout}
+        />
         <ul className="sidebar-navigation">
 
           {carnets.map((carnet) => {
             return (
               <Carnet
                 key={carnet.id}
-                id={carnet.id}
-                titreCarnet={carnet.titre}
-                dateCarnet={carnet.date}
+                carnet={carnet}
+                titre={titre}
+                setTitre={setTitre}
+                modifierTitre={modifierTitre}
                 deleteCarnet={deleteCarnet}
               />
             )
