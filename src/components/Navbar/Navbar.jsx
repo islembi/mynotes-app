@@ -114,7 +114,7 @@ export default function Navbar() {
         <div>
           <div className="container-notes">
             {/* Display des notes */}
-            {activeCarnet && <Notes carnet={carnet} />}
+            {activeCarnet && <Notes carnet={carnet} carnets={carnets} />}
           </div>
         </div>
       </div>

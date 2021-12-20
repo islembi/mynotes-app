@@ -1,0 +1,30 @@
+.modal-body-input {
+  display: flex;
+  height: 350px;
+  /* width: 100%; */
+}
+
+.modal-body-input div {
+  width: 50%;
+}
+
+.modal-body-input:first-child {
+  border-right: 1px solid;
+}
+.label-html {
+  padding-left: 2%;
+}
+
+.markdown * {
+  padding-left: 2%;
+  width: 200%;
+  word-wrap: break-word;
+}
+
+.form-control-text-markdown {
+  height: 300px;
+}
+
+.footer-modal-notes {
+  align-self: center;
+}
