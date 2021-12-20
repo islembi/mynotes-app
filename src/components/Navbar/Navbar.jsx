@@ -1,34 +1,46 @@
-import React, { useState, useEffect} from "react"
+import React, { useState, useEffect } from "react"
 import Carnet from "../Carnet/Carnet"
 import ModalComp from "../Modal/ModalComp"
 import uuid from "react-uuid"
 import "./Navbar.css"
+import Notes from "../Notes/Notes"
 export default function Navbar() {
   const [titre, setTitre] = useState("")
   const [rech, setRech] = useState("")
+  const [carnet, setCarnet] = useState({})
+  const [activeCarnet, setActiveCarnet] = useState(false)
   const [carnets, setCarnets] = useState(
-    localStorage.carnets ? JSON.parse(localStorage.carnets) : [])
+    localStorage.carnets ? JSON.parse(localStorage.carnets) : []
+  )
 
   useEffect(() => {
-    localStorage.setItem("carnets", JSON.stringify(carnets));
-  }, [carnets]);
+    localStorage.setItem("carnets", JSON.stringify(carnets))
+  }, [carnets])
 
-  //ajout de carnet
+  // Fonction ajout de carnet
   const ajout = (inputTitre) => {
     const tmp = [...carnets]
-    tmp.push({ id: uuid(), titre: inputTitre, date: Date.now() })
+    if (!inputTitre.trim()) return alert("Veuillez saisir un titre")
+    const existCarnet = carnets.find((carnet) => carnet.titre === inputTitre)
+    if (existCarnet)
+      return (
+        setTitre(""),
+        alert("Nom du carnet existe! Veuillez choisir un autre nom")
+      )
+    tmp.push({ id: uuid(), titre: inputTitre, date: Date.now(), notes: [] })
     setCarnets(tmp)
-    setTitre("") 
+    setTitre("")
   }
-
+  // Fonction modifier titre carnet
   const modifierTitre = (id) => {
     const carnet = carnets.find((carnet) => carnet.id === id)
     carnet.id = id
     carnet.titre = titre
     carnet.date = Date.now()
+    localStorage.setItem("carnets", JSON.stringify(carnets))
     setTitre("")
   }
-  //recherche
+  // Fonction recherche par titre carnet
   function rechercher(strRech, liste) {
     let tmpRech = strRech.toLowerCase()
     let res = liste.filter((carnet) => {
@@ -39,60 +51,73 @@ export default function Navbar() {
     return res
   }
 
-  //recuperation de ligneCarnet
+  // Recuperation de ligneCarnet
   let ligneCarnet = rechercher(rech, carnets).map((carnet) => {
     return (
-      <div>
+      <div
+        key={carnet.id}
+        onClick={() => [setCarnet(carnet), setActiveCarnet(true)]}
+      >
         <Carnet
-          key={carnet.id}
-                carnet={carnet}
-                titre={titre}
-                setTitre={setTitre}
-                modifierTitre={modifierTitre}
-                deleteCarnet={deleteCarnet}
+          carnet={carnet}
+          titre={titre}
+          setTitre={setTitre}
+          modifierTitre={modifierTitre}
+          deleteCarnet={deleteCarnet}
         />
       </div>
     )
   })
 
-  function deleteCarnet(id){
-    let rep = window.confirm("vous voulez supprimer?" );
-    if(rep === false) return;
-    const tmp = carnets.filter(function(el) { return el.id != id; });
-    setCarnets(tmp);
-  } 
-  
+  // Fonction supprimer carnet
+  function deleteCarnet(id) {
+    let rep = window.confirm("vous voulez supprimer?")
+    if (rep === false) return
+    const tmp = carnets.filter(function (el) {
+      return el.id !== id
+    })
+    setCarnets(tmp)
+  }
+
   return (
-    <div>
-      <div className="sidebar-container">
-        <div className="sidebar-logo">Projet NOTES</div>
-        <ModalComp
-          titreButton="Ajouter un Carnet"
-          titre={titre}
-          setTitre={setTitre}
-          ajout={ajout}
-        />
-        <ul className="sidebar-navigation">
-          <input
-            className=""
-            type="search"
-            value={rech}
-            onChange={(e) => {
-              setRech(e.target.value)
-            }}
-            className="form-control"
-            placeholder="Rechercher ..."
+    <div className="sidebar">
+      <div className="app-sidebar text-center">
+        <div className="sidebar-container">
+          <div className="sidebar-logo">Projet NOTES</div>
+          {/* Modal ajout du carnet */}
+          <ModalComp
+            titreButton="Ajouter un Carnet"
+            titre={titre}
+            setTitre={setTitre}
+            ajout={ajout}
           />
-
-          <div> {ligneCarnet}</div>
-
-
-          <li></li>
-        </ul>
+          {/* Input pour la recherche avec titre carnet */}
+          <ul className="sidebar-navigation">
+            <input
+              type="search"
+              value={rech}
+              onChange={(e) => {
+                setRech(e.target.value)
+              }}
+              className="form-control"
+              placeholder="Rechercher ..."
+            />
+            {/* Display des carnet  */}
+            <div className="sidebar-carnet"> {ligneCarnet}</div>
+          </ul>
+        </div>
       </div>
-      <nav className="navbar navbar-light bg-light">
-        <a className="navbar-brand">My Notes ✏</a>
-      </nav>
+      <div className="app-main">
+        <nav className="navbar navbar-light bg-light">
+          <p className="navbar-brand">Mes Notes ✏</p>
+        </nav>
+        <div>
+          <div className="container-notes">
+            {/* Display des notes */}
+            {activeCarnet && <Notes carnet={carnet} />}
+          </div>
+        </div>
+      </div>
     </div>
   )
 }
