@@ -1,4 +1,4 @@
-import React, {useState, useEffect } from "react"
+import React, { useState } from "react"
 import { Modal, Button, InputGroup, FormControl } from "react-bootstrap"
 import "./modal.css"
 
@@ -15,12 +15,10 @@ export default function ModalComp({
   const handleClose = () => setShow(false)
   const handleShow = () => setShow(true)
 
-  
-
   return (
     <>
       <Button className="buttonajout" onClick={handleShow}>
-       {titreButton}
+        {titreButton}
       </Button>
 
       <Modal

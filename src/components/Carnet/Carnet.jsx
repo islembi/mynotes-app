@@ -3,7 +3,7 @@ import { Card } from "react-bootstrap"
 import ModalComp from "../Modal/ModalComp"
 import "./Carnet.css"
 
-const Carnet = ({ carnet, titre, setTitre, modifierTitre, deleteCarnet}) => {
+const Carnet = ({ carnet, titre, setTitre, modifierTitre, deleteCarnet }) => {
   return (
     <div className="text-center">
       <Card>
@@ -14,11 +14,13 @@ const Carnet = ({ carnet, titre, setTitre, modifierTitre, deleteCarnet}) => {
         />
         <Card.Body>
           <Card.Text>
-            Modifié le{" "}
-            {new Date(carnet.date).toLocaleDateString("en-GB", {
-              hour: "2-digit",
-              minute: "2-digit",
-            })}
+            <small>
+              Modifié le{" "}
+              {new Date(carnet.date).toLocaleDateString("en-GB", {
+                hour: "2-digit",
+                minute: "2-digit",
+              })}
+            </small>
           </Card.Text>
           <ModalComp
             titreButton="Modifier"
@@ -28,13 +30,15 @@ const Carnet = ({ carnet, titre, setTitre, modifierTitre, deleteCarnet}) => {
             setTitre={setTitre}
           />
           <p className="card-text">
-            <button onClick={()=>
-              deleteCarnet(carnet.id)} className="btn btn-sm btn-danger">Supprimer</button>
-         
+            <button
+              onClick={() => deleteCarnet(carnet.id)}
+              className="btn btn-sm btn-danger buttonajout bmodal"
+            >
+              Supprimer
+            </button>
           </p>
         </Card.Body>
       </Card>
-
     </div>
   )
 }
