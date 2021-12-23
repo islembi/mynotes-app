@@ -1,22 +1,32 @@
-import React from "react"
+import React, { useState } from "react"
 import "bootstrap/dist/css/bootstrap.css"
 import "./Notes.css"
 import ModalNotes from "./../ModalNotes/ModalNotes"
 import { Markdown } from "react-showdown"
-import { useState } from "react"
 import { Form } from "react-bootstrap"
-import "./Notes.css"
 import { sortBy } from "lodash"
 
-export default function Notes({ carnet, carnets }) {
+export default function Notes({ carnet, carnets, setCarnet }) {
   const [sear, setSearshing] = useState("")
-  const [search, setSearsh] = useState("")
-  const tmp = carnet.notes
+  const [search, setSearch] = useState("")
+  const [listCard, setListCard] = useState("Card")
+  // const tmp = carnet.notes
+
+  // Fonction Modifier Note
+  const modifierNote = (id, inputTitreNote, categorie, inputMarkdown) => {
+    const findNote = carnet.notes.find((x) => x.id === id)
+    findNote.titre = inputTitreNote
+    findNote.categorie = categorie
+    findNote.text = inputMarkdown
+    findNote.id = id
+    setCarnet({ notes: findNote, ...carnet })
+    localStorage.setItem("carnets", JSON.stringify(carnets))
+  }
 
   // Fonction recherche
   function searching(strSear, strMysearch, list) {
     let res = [...list]
-    if (strMysearch != "") {
+    if (strMysearch !== "") {
       res = res.filter((note) => {
         if (strMysearch.toLowerCase() === note.categorie.toLowerCase())
           return note
@@ -33,9 +43,9 @@ export default function Notes({ carnet, carnets }) {
     return res
   }
   //recuperation de ligneNotes
-  let data = sortBy(tmp, [
+  let data = sortBy(carnet.notes, [
     function (o) {
-      return o.titre
+      return o.titre.toLowerCase()
     },
   ])
   let ligneNotes = searching(sear, search, data).map((note) => {
@@ -53,6 +63,14 @@ export default function Notes({ carnet, carnets }) {
           <p>
             <Markdown className="markdown" markup={note.text} />
           </p>
+          <ModalNotes
+            titreButtonSecondaire="Modifier"
+            titreButtonPrincipal="Modifier"
+            note={note}
+            carnet={carnet}
+            carnets={carnets}
+            modifierNote={modifierNote}
+          />
           <hr class="dashed"></hr>
         </div>
       </div>
@@ -62,95 +80,101 @@ export default function Notes({ carnet, carnets }) {
   //recuperation de ligneNotes catégorie
   return (
     <div>
-      <h2 className="titre-carnet">{carnet.titre}</h2>
-      <ModalNotes carnet={carnet} carnets={carnets} />
       <div>
-        <input
-          type="search"
-          value={sear}
-          onChange={(e) => {
-            setSearshing(e.target.value)
-          }}
-          className="searchbar-note"
-          placeholder="cherchez la note par titre ..."
+        <h2 className="titre-carnet">{carnet.titre}</h2>
+        <ModalNotes
+          className="text-center"
+          titreButtonPrincipal="Ajouter Note"
+          titreButtonSecondaire="Ajouter"
+          carnet={carnet}
+          carnets={carnets}
+          setCarnet={setCarnet}
         />
-
-        <Form.Select
-          value={search}
-          onChange={(e) => setSearsh(e.target.value)}
-          aria-label="Default select example"
-          className="select-note"
+        <button
+          className="btn btn-primary"
+          onClick={
+            listCard === "Card"
+              ? () => setListCard("List")
+              : () => setListCard("Card")
+          }
         >
-          <option value="">recherche par catégorie</option>
-          <option value="Secondaire">Secondaire</option>
-          <option value="Important">Important</option>
-          <option value="Urgent">Urgent</option>
-        </Form.Select>
-      </div>
-      <div className="block-list">{ligneNotes}</div>
+          {listCard === "Card"
+            ? "Afficher en mode List"
+            : "Afficher en mode Card"}
+        </button>
+        <div>
+          <input
+            type="search"
+            value={sear}
+            onChange={(e) => {
+              setSearshing(e.target.value)
+            }}
+            className="searchbar-note"
+            placeholder="cherchez la note par titre ..."
+          />
 
-export default function Notes({ setCarnet, carnet, carnets }) {
-  const modifierNote = (id, inputTitreNote, categorie, inputMarkdown) => {
-    const findNote = carnet.notes.find((x) => x.id === id)
-    findNote.titre = inputTitreNote
-    findNote.categorie = categorie
-    findNote.text = inputMarkdown
-    findNote.id = id
-    setCarnet({ notes: findNote, ...carnet })
-    localStorage.setItem("carnets", JSON.stringify(carnets))
-  }
-  return (
-    <div>
-      <h2>{carnet.titre}</h2>
-      <ModalNotes
-        titreButtonPrincipal="Ajouter Note"
-        titreButtonSecondaire="Ajouter"
-        carnet={carnet}
-        carnets={carnets}
-        setCarnet={setCarnet}
-      />
-      <div className="container bootstrap snippets bootdeys">
-        <div className="row">
-          {carnet.notes.map((note) => {
-            return (
-              <div key={note.id} className="col-md-4 col-sm-6 content-card">
-                <div className="card-big-shadow">
-                  <div
-                    className="card card-just-text"
-                    data-background="color"
-                    data-color={
-                      note.categorie === "Secondaire"
-                        ? "green"
-                        : note.categorie === "Important"
-                        ? "yellow"
-                        : "orange"
-                    }
-                    data-radius="none"
-                  >
-                    <div className="content">
-                      <h6 className="category">{note.titre}</h6>
-                      <h4 className="title">{note.categorie}</h4>
-                      <Markdown
-                        className="description text-center"
-                        markup={note.text}
-                      />
-                    </div>
-                    <ModalNotes
-                      titreButtonSecondaire="Modifier"
-                      titreButtonPrincipal="Modifier"
-                      note={note}
-                      carnet={carnet}
-                      carnets={carnets}
-                      modifierNote={modifierNote}
-                    />
-                  </div>
-                </div>
-              </div>
-            )
-          })}
+          <Form.Select
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            aria-label="Default select example"
+            className="select-note"
+          >
+            <option value="">recherche par catégorie</option>
+            <option value="Secondaire">Secondaire</option>
+            <option value="Important">Important</option>
+            <option value="Urgent">Urgent</option>
+          </Form.Select>
         </div>
-      </div>
+        {/* mode card */}
 
+        {listCard === "Card" && (
+          <div className="container bootstrap snippets bootdeys">
+            <div className="row">
+              {searching(sear, search, data).map((note) => {
+                return (
+                  <div key={note.id} className="col-md-4 col-sm-6 content-card">
+                    <div className="card-big-shadow">
+                      <div
+                        className="card card-just-text"
+                        data-background="color"
+                        data-color={
+                          note.categorie === "Secondaire"
+                            ? "green"
+                            : note.categorie === "Important"
+                            ? "yellow"
+                            : "orange"
+                        }
+                        data-radius="none"
+                      >
+                        <div className="content">
+                          <h6 className="category">{note.titre}</h6>
+                          <h4 className="title">{note.categorie}</h4>
+                          <Markdown
+                            className="description text-center"
+                            markup={note.text}
+                          />
+                        </div>
+                        <ModalNotes
+                          titreButtonSecondaire="Modifier"
+                          titreButtonPrincipal="Modifier"
+                          note={note}
+                          carnet={carnet}
+                          carnets={carnets}
+                          modifierNote={modifierNote}
+                        />
+                      </div>
+                    </div>
+                  </div>
+                )
+              })}
+            </div>
+          </div>
+        )}
+
+        {/* mode list */}
+
+        {listCard === "List" && <div className="block-list">{ligneNotes}</div>}
+      </div>
     </div>
   )
 }
