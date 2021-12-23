@@ -4,6 +4,7 @@ import ModalComp from "../Modal/ModalComp"
 import uuid from "react-uuid"
 import "./Navbar.css"
 import Notes from "../Notes/Notes"
+import { sortBy } from "lodash"
 export default function Navbar() {
   const [titre, setTitre] = useState("")
   const [rech, setRech] = useState("")
@@ -52,7 +53,12 @@ export default function Navbar() {
   }
 
   // Recuperation de ligneCarnet
-  let ligneCarnet = rechercher(rech, carnets).map((carnet) => {
+  let data = sortBy(carnets, [
+    function (o) {
+      return o.titre
+    },
+  ])
+  let ligneCarnet = rechercher(rech, data).map((carnet) => {
     return (
       <div
         key={carnet.id}

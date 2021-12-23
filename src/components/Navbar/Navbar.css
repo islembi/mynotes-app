@@ -43,6 +43,9 @@
 .app-main {
   width: 85%;
   height: 100vh;
+  background-color: rgb(255, 241, 242);
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 
 .navbar {

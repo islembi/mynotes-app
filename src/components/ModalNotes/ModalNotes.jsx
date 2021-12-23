@@ -28,7 +28,9 @@ export default function ModalNotes({ carnet, carnets }) {
 
   return (
     <>
-      <Button onClick={() => setLgShow(true)}>Ajouter Note</Button>
+      <Button className="class-Note" onClick={() => setLgShow(true)}>
+        Ajouter Note
+      </Button>
       <Modal
         size="lg"
         show={lgShow}
@@ -84,7 +86,7 @@ export default function ModalNotes({ carnet, carnets }) {
         </Modal.Body>
         <Modal.Footer className="footer-modal-notes">
           <Button
-            variant="primary"
+            className="class-Note"
             onClick={() => [ajoutNote(), setLgShow(false)]}
           >
             ajouter
