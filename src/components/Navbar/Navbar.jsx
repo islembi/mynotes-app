@@ -82,6 +82,10 @@ export default function Navbar() {
     const tmp = carnets.filter(function (el) {
       return el.id !== id
     })
+    if (carnet.id === id) {
+      setActiveCarnet(false)
+      setCarnet({})
+    }
     setCarnets(tmp)
   }
 
@@ -120,7 +124,9 @@ export default function Navbar() {
         <div>
           <div className="container-notes">
             {/* Display des notes */}
-            {activeCarnet && <Notes carnet={carnet} carnets={carnets} />}
+            {activeCarnet && (
+              <Notes setCarnet={setCarnet} carnet={carnet} carnets={carnets} />
+            )}
           </div>
         </div>
       </div>

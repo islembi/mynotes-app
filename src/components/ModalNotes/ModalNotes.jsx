@@ -1,26 +1,46 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import uuid from "react-uuid"
 import { Markdown } from "react-showdown"
 import { Modal, Button, InputGroup, Form, FormControl } from "react-bootstrap"
 import "./ModalNotes.css"
 
-export default function ModalNotes({ carnet, carnets }) {
+export default function ModalNotes({
+  titreButtonPrincipal,
+  titreButtonSecondaire,
+  carnet,
+  carnets,
+  setCarnet,
+  note,
+  modifierNote,
+}) {
   const [lgShow, setLgShow] = useState(false)
   const [inputMarkdown, setInputMarkdown] = useState("")
   const [inputTitreNote, setInputTitreNote] = useState("")
   const [categorie, setCategorie] = useState("Secondaire")
 
+  useEffect(() => {
+    if (note) {
+      setInputTitreNote(note.titre)
+      setInputMarkdown(note.text)
+      setCategorie(note.categorie)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
   const ajoutNote = () => {
-    const tmp = [...carnet.notes]
-    tmp.push({
+    // const tmp = [...carnet.notes]
+    carnet.notes.push({
       id: uuid(),
       titre: inputTitreNote,
       categorie: categorie,
       text: inputMarkdown,
     })
-    carnet.notes = tmp
-    console.log(carnet)
+    // carnet.notes = tmp
     localStorage.setItem("carnets", JSON.stringify(carnets))
+    const carnetInLocal = JSON.parse(localStorage.carnets).find(
+      (x) => x.id === carnet.id
+    )
+    setCarnet(carnetInLocal)
     setInputTitreNote("")
     setInputMarkdown("")
     setCategorie("Secondaire")
@@ -28,9 +48,7 @@ export default function ModalNotes({ carnet, carnets }) {
 
   return (
     <>
-      <Button className="class-Note" onClick={() => setLgShow(true)}>
-        Ajouter Note
-      </Button>
+      <Button onClick={() => setLgShow(true)}>{titreButtonPrincipal}</Button>
       <Modal
         size="lg"
         show={lgShow}
@@ -86,10 +104,22 @@ export default function ModalNotes({ carnet, carnets }) {
         </Modal.Body>
         <Modal.Footer className="footer-modal-notes">
           <Button
-            className="class-Note"
-            onClick={() => [ajoutNote(), setLgShow(false)]}
+            variant="primary"
+            onClick={
+              titreButtonSecondaire === "Ajouter"
+                ? () => [ajoutNote(), setLgShow(false)]
+                : () => [
+                    modifierNote(
+                      note.id,
+                      inputTitreNote,
+                      categorie,
+                      inputMarkdown
+                    ),
+                    setLgShow(false),
+                  ]
+            }
           >
-            ajouter
+            {titreButtonSecondaire}
           </Button>
         </Modal.Footer>
       </Modal>
