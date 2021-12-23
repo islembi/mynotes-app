@@ -31,7 +31,7 @@ const Carnet = ({ carnet, titre, setTitre, modifierTitre, deleteCarnet }) => {
           />
           <p className="card-text">
             <button
-              onClick={() => deleteCarnet(carnet.id)}
+              onClick={(e) => [deleteCarnet(carnet.id), e.stopPropagation()]}
               className="btn btn-sm btn-danger buttonajout bmodal"
             >
               Supprimer
