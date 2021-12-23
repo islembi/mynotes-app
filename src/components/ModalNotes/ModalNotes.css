@@ -28,3 +28,8 @@
 .footer-modal-notes {
   align-self: center;
 }
+.class-Note {
+  background-color: rgb(172, 51, 81) !important;
+  margin-left: 40%;
+  width: 220px;
+}

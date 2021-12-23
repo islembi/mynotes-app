@@ -1,3 +1,30 @@
+
+.searchbar-note {
+  width: 25%;
+  height: 40px;
+  margin-top: 45px;
+  margin-left: 70%;
+}
+.select-note {
+  width: 25%;
+  height: 40px;
+  margin-left: 70%;
+}
+.titre-carnet {
+  margin-left: 45%;
+}
+.block-list {
+  margin-left: 12%;
+}
+.note-title {
+  color: rgb(165, 96, 96);
+}
+.hr.dashed {
+  border-top: 3px dashed #bbb;
+}
+.center-line {
+  width: 50%;
+
 body {
   margin-top: 20px;
 }
