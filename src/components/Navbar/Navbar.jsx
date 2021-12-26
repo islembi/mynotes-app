@@ -6,6 +6,7 @@ import "./Navbar.css"
 import Notes from "../Notes/Notes"
 import { sortBy } from "lodash"
 export default function Navbar() {
+  const [switchCarnet, setSwitchCarnet] = useState("Card")
   const [titre, setTitre] = useState("")
   const [rech, setRech] = useState("")
   const [carnet, setCarnet] = useState({})
@@ -89,6 +90,66 @@ export default function Navbar() {
     setCarnets(tmp)
   }
 
+  // Fonction supprimer note
+
+  function deleteNote(carnetId, noteId) {
+    let rep = window.confirm("vous voulez supprimer cette note ?")
+
+    var tmp = carnets
+
+    tmp.forEach((carnet) => {
+      if (carnet.id === carnetId) {
+        carnet.notes = carnet.notes.filter((note) => note.id !== noteId)
+      }
+    })
+
+    setCarnets(tmp)
+  }
+
+  // Recuperation carnet en mode liste
+
+  let ligneCarnetListe = rechercher(rech, data).map((carnet) => {
+    return (
+      <div
+        key={carnet.id}
+        onClick={() => [setCarnet(carnet), setActiveCarnet(true)]}
+      >
+        <ul class="list-group mt-3">
+          <li class="list-group-item ">{carnet.titre}</li>
+
+          <li class="list-group-item">
+            <small>
+              {" "}
+              Modifié le :
+              {new Date(carnet.date).toLocaleDateString("en-GB", {
+                hour: "2-digit",
+
+                minute: "2-digit",
+              })}
+            </small>
+          </li>
+
+          <li class="list-group-item">
+            <ModalComp
+              titreButton="Modifier"
+              modifierTitre={modifierTitre}
+              id={carnet.id}
+              titre={titre}
+              setTitre={setTitre}
+            />
+
+            <button
+              onClick={() => deleteCarnet(carnet.id)}
+              className="btn btn-sm btn-danger buttonajout bmodal"
+            >
+              Supprimer
+            </button>
+          </li>
+        </ul>
+      </div>
+    )
+  })
+
   return (
     <div className="sidebar">
       <div className="app-sidebar text-center">
@@ -101,6 +162,15 @@ export default function Navbar() {
             setTitre={setTitre}
             ajout={ajout}
           />
+          <button
+            onClick={
+              switchCarnet === "Card"
+                ? () => setSwitchCarnet("List")
+                : () => setSwitchCarnet("Card")
+            }
+          >
+            {switchCarnet === "Card" ? "Mode List" : "Mode Card"}
+          </button>
           {/* Input pour la recherche avec titre carnet */}
           <ul className="sidebar-navigation">
             <input
@@ -113,7 +183,9 @@ export default function Navbar() {
               placeholder="Rechercher ..."
             />
             {/* Display des carnet  */}
-            <div className="sidebar-carnet"> {ligneCarnet}</div>
+            <div className="sidebar-carnet">
+              {switchCarnet === "Card" ? ligneCarnet : ligneCarnetListe}
+            </div>
           </ul>
         </div>
       </div>
@@ -125,7 +197,12 @@ export default function Navbar() {
           <div className="container-notes">
             {/* Display des notes */}
             {activeCarnet && (
-              <Notes setCarnet={setCarnet} carnet={carnet} carnets={carnets} />
+              <Notes
+                setCarnet={setCarnet}
+                carnet={carnet}
+                carnets={carnets}
+                deleteNote={deleteNote}
+              />
             )}
           </div>
         </div>

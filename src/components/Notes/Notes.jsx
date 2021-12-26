@@ -6,7 +6,7 @@ import { Markdown } from "react-showdown"
 import { Form } from "react-bootstrap"
 import { sortBy } from "lodash"
 
-export default function Notes({ carnet, carnets, setCarnet }) {
+export default function Notes({ carnet, carnets, setCarnet, deleteNote }) {
   const [sear, setSearshing] = useState("")
   const [search, setSearch] = useState("")
   const [listCard, setListCard] = useState("Card")
@@ -71,6 +71,12 @@ export default function Notes({ carnet, carnets, setCarnet }) {
             carnets={carnets}
             modifierNote={modifierNote}
           />
+          <button
+            onClick={() => deleteNote(carnet.id, note.id)}
+            className="btn btn-sm btn-danger "
+          >
+            Supprimer
+          </button>
           <hr class="dashed"></hr>
         </div>
       </div>
@@ -162,6 +168,12 @@ export default function Notes({ carnet, carnets, setCarnet }) {
                           carnets={carnets}
                           modifierNote={modifierNote}
                         />
+                        <button
+                          onClick={() => deleteNote(carnet.id, note.id)}
+                          className="btn btn-sm btn-danger "
+                        >
+                          Supprimer
+                        </button>
                       </div>
                     </div>
                   </div>
