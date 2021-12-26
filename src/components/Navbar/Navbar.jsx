@@ -5,6 +5,7 @@ import uuid from "react-uuid"
 import "./Navbar.css"
 import Notes from "../Notes/Notes"
 import { sortBy } from "lodash"
+import { Link } from "react-router-dom"
 export default function Navbar() {
   const [switchCarnet, setSwitchCarnet] = useState("Card")
   const [titre, setTitre] = useState("")
@@ -94,9 +95,9 @@ export default function Navbar() {
 
   function deleteNote(carnetId, noteId) {
     let rep = window.confirm("vous voulez supprimer cette note ?")
+    if (rep === false) return
 
     var tmp = carnets
-
     tmp.forEach((carnet) => {
       if (carnet.id === carnetId) {
         carnet.notes = carnet.notes.filter((note) => note.id !== noteId)
@@ -191,6 +192,12 @@ export default function Navbar() {
       </div>
       <div className="app-main">
         <nav className="navbar navbar-light bg-light">
+          <li>
+            <Link to="/">Home</Link>
+          </li>
+          <li>
+            <Link to="statistique">Statistique</Link>
+          </li>
           <p className="navbar-brand">Mes Notes ✏</p>
         </nav>
         <div>
