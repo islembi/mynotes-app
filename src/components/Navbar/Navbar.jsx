@@ -70,7 +70,7 @@ export default function Navbar() {
     )
   })
 
-  // Recuperation de ligneCarnet
+  // Recuperation de ligneCarnetListe
   let ligneCarnetListe = rechercher(rech, carnets).map((carnet) => {
     return (
       <div>
