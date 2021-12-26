@@ -65,19 +65,69 @@ export default function Navbar() {
           modifierTitre={modifierTitre}
           deleteCarnet={deleteCarnet}
         />
+
       </div>
     )
   })
 
+  // Recuperation de ligneCarnet
+  let ligneCarnetListe = rechercher(rech, carnets).map((carnet) => {
+    return (
+      <div>
+  
+      
+    
+      <ul class="list-group">
+  <li class="list-group-item ">{carnet.titre}</li>
+  <li class="list-group-item"><small>  Modifié le :{new Date(carnet.date).toLocaleDateString("en-GB", {
+                hour: "2-digit",
+                minute: "2-digit",
+              })}</small></li>
+  <li class="list-group-item">
+    <ModalComp
+            titreButton="Modifier"
+            modifierTitre={modifierTitre}
+            id={carnet.id}
+            titre={titre}
+            setTitre={setTitre}
+          />
+
+          <button
+              onClick={() => deleteCarnet(carnet.id)}
+              className="btn btn-sm btn-danger buttonajout bmodal"
+            >
+              Supprimer
+            </button>
+          </li>
+  
+  
+</ul>
+      </div>
+        
+    )
+  })
+
+
   // Fonction supprimer carnet
   function deleteCarnet(id) {
-    let rep = window.confirm("vous voulez supprimer?")
+    let rep = window.confirm("vous voulez supprimer ce carnet ?")
     if (rep === false) return
     const tmp = carnets.filter(function (el) {
       return el.id !== id
     })
     setCarnets(tmp)
   }
+  // Fonction supprimer note
+  function deleteNote(carnetId, noteId) {
+    let rep = window.confirm("vous voulez supprimer cette note ?")
+    var tmp= carnets;
+    tmp.forEach(carnet => {
+      if (carnet.id=== carnetId) {
+        carnet.notes = carnet.notes.filter(note => note.id !== noteId)
+      } 
+    });
+    setCarnets(tmp) 
+  } 
 
   return (
     <div className="sidebar">
@@ -104,6 +154,7 @@ export default function Navbar() {
             />
             {/* Display des carnet  */}
             <div className="sidebar-carnet"> {ligneCarnet}</div>
+            <div className="sidebar-carnet"> {ligneCarnetListe}</div>
           </ul>
         </div>
       </div>
@@ -114,7 +165,7 @@ export default function Navbar() {
         <div>
           <div className="container-notes">
             {/* Display des notes */}
-            {activeCarnet && <Notes carnet={carnet} carnets={carnets} />}
+            {activeCarnet && <Notes carnet={carnet} carnets={carnets} deleteNote={deleteNote} />}
           </div>
         </div>
       </div>

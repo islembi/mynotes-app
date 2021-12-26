@@ -4,11 +4,12 @@ import { Markdown } from "react-showdown"
 import { Modal, Button, InputGroup, Form, FormControl } from "react-bootstrap"
 import "./ModalNotes.css"
 
-export default function ModalNotes({ carnet, carnets }) {
+export default function ModalNotes({ carnet, carnets,deleteNote}) {
   const [lgShow, setLgShow] = useState(false)
   const [inputMarkdown, setInputMarkdown] = useState("")
   const [inputTitreNote, setInputTitreNote] = useState("")
   const [categorie, setCategorie] = useState("Secondaire")
+  
 
   const ajoutNote = () => {
     const tmp = [...carnet.notes]
@@ -26,6 +27,8 @@ export default function ModalNotes({ carnet, carnets }) {
     setCategorie("Secondaire")
   }
 
+
+   
   return (
     <>
       <Button onClick={() => setLgShow(true)}>Ajouter Note</Button>

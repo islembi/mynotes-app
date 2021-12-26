@@ -39,7 +39,9 @@ const Carnet = ({ carnet, titre, setTitre, modifierTitre, deleteCarnet }) => {
           </p>
         </Card.Body>
       </Card>
+     
     </div>
+      
   )
 }
 
