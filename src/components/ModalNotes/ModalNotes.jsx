@@ -28,19 +28,15 @@ export default function ModalNotes({
   }, [])
 
   const ajoutNote = () => {
-    // const tmp = [...carnet.notes]
-    carnet.notes.push({
+    const tmp = { ...carnet }
+    tmp.notes.push({
       id: uuid(),
       titre: inputTitreNote,
       categorie: categorie,
       text: inputMarkdown,
     })
-    // carnet.notes = tmp
+    setCarnet(tmp)
     localStorage.setItem("carnets", JSON.stringify(carnets))
-    const carnetInLocal = JSON.parse(localStorage.carnets).find(
-      (x) => x.id === carnet.id
-    )
-    setCarnet(carnetInLocal)
     setInputTitreNote("")
     setInputMarkdown("")
     setCategorie("Secondaire")
