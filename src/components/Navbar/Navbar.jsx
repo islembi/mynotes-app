@@ -96,15 +96,18 @@ export default function Navbar() {
   function deleteNote(carnetId, noteId) {
     let rep = window.confirm("vous voulez supprimer cette note ?")
     if (rep === false) return
-
-    var tmp = carnets
-    tmp.forEach((carnet) => {
-      if (carnet.id === carnetId) {
-        carnet.notes = carnet.notes.filter((note) => note.id !== noteId)
+    const tmp = (carnet.notes = carnet.notes.filter(
+      (note) => note.id !== noteId
+    ))
+    setCarnet({ notes: tmp, ...carnet })
+    const tmp1 = [...carnets]
+    tmp1.forEach((carnet1) => {
+      if (carnet1.id === carnetId) {
+        carnet1 = carnet
       }
     })
-
-    setCarnets(tmp)
+    setCarnets(tmp1)
+    localStorage.setItem("carnets", JSON.stringify(carnets))
   }
 
   // Recuperation carnet en mode liste
@@ -115,10 +118,13 @@ export default function Navbar() {
         key={carnet.id}
         onClick={() => [setCarnet(carnet), setActiveCarnet(true)]}
       >
-        <ul class="list-group mt-3">
-          <li class="list-group-item ">{carnet.titre}</li>
+        <ul className="list-group mt-3">
+          <li className="list-group-item ">
+            {carnet.titre.charAt(0).toUpperCase() +
+              carnet.titre.substring(1).toLowerCase()}
+          </li>
 
-          <li class="list-group-item">
+          <li className="list-group-item">
             <small>
               {" "}
               Modifié le :
@@ -130,7 +136,7 @@ export default function Navbar() {
             </small>
           </li>
 
-          <li class="list-group-item">
+          <li className="list-group-item">
             <ModalComp
               titreButton="Modifier"
               modifierTitre={modifierTitre}
@@ -141,7 +147,7 @@ export default function Navbar() {
 
             <button
               onClick={() => deleteCarnet(carnet.id)}
-              className="btn btn-sm btn-danger buttonajout bmodal"
+              className="btn mx-1 btn-danger buttonajout bmodal"
             >
               Supprimer
             </button>
@@ -163,15 +169,18 @@ export default function Navbar() {
             setTitre={setTitre}
             ajout={ajout}
           />
-          <button
-            onClick={
-              switchCarnet === "Card"
-                ? () => setSwitchCarnet("List")
-                : () => setSwitchCarnet("Card")
-            }
-          >
-            {switchCarnet === "Card" ? "Mode List" : "Mode Card"}
-          </button>
+          {carnets.length ? (
+            <button
+              className="btn btn-secondary mx-1"
+              onClick={
+                switchCarnet === "Card"
+                  ? () => setSwitchCarnet("List")
+                  : () => setSwitchCarnet("Card")
+              }
+            >
+              {switchCarnet === "Card" ? "Mode List" : "Mode Card"}
+            </button>
+          ) : null}
           {/* Input pour la recherche avec titre carnet */}
           <ul className="sidebar-navigation">
             <input
@@ -192,12 +201,12 @@ export default function Navbar() {
       </div>
       <div className="app-main">
         <nav className="navbar navbar-light bg-light">
-          <li>
+          <ul>
             <Link to="/">Home</Link>
-          </li>
-          <li>
+          </ul>
+          <ul>
             <Link to="statistique">Statistique</Link>
-          </li>
+          </ul>
           <p className="navbar-brand">Mes Notes ✏</p>
         </nav>
         <div>
