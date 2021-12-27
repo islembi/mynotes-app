@@ -7,7 +7,10 @@ const Carnet = ({ carnet, titre, setTitre, modifierTitre, deleteCarnet }) => {
   return (
     <div className="text-center">
       <Card>
-        <Card.Title>{carnet.titre}</Card.Title>
+        <Card.Title>
+          {carnet.titre.charAt(0).toUpperCase() +
+            carnet.titre.substring(1).toLowerCase()}
+        </Card.Title>
         <Card.Img
           variant="top"
           src={window.location.origin + "/img/carnet.jpg"}

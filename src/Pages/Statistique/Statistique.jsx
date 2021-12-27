@@ -1,7 +1,7 @@
-import React from "react"
+import React, { useState } from "react"
 import "bootstrap/dist/css/bootstrap.css"
 import { Link } from "react-router-dom"
-import { useState } from "react"
+import Diagramme from "./Diagramme"
 import Donut from "./Donut"
 
 export default function Statistique({ carnets }) {
@@ -18,7 +18,7 @@ export default function Statistique({ carnets }) {
         <li>
           <Link to="statistique">Statistique</Link>
         </li>
-        <p className="navbar-brand">Mes Notes ✏</p>
+        <p className="navbar-brand">Statistique ✏</p>
       </nav>
       <h3>
         nombre total de carnets
@@ -26,7 +26,7 @@ export default function Statistique({ carnets }) {
           {stat.length}
         </span>
       </h3>
-
+      <Diagramme />
       <Donut />
     </div>
   )

@@ -9,9 +9,7 @@
   height: 40px;
   margin-left: 70%;
 }
-.titre-carnet {
-  margin-left: 45%;
-}
+
 .block-list {
   margin-left: 12%;
 }
@@ -24,6 +22,12 @@
 .center-line {
   width: 50%;
 }
+
+.button-add-note {
+  display: flex;
+  justify-content: center;
+}
+
 body {
   margin-top: 20px;
 }
