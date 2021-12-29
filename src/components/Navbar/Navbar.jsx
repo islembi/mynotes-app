@@ -6,6 +6,7 @@ import "./Navbar.css"
 import Notes from "../Notes/Notes"
 import { sortBy } from "lodash"
 import { Link } from "react-router-dom"
+import { Nav } from "react-bootstrap"
 export default function Navbar() {
   const [switchCarnet, setSwitchCarnet] = useState("Card")
   const [titre, setTitre] = useState("")
@@ -18,7 +19,7 @@ export default function Navbar() {
 
   useEffect(() => {
     localStorage.setItem("carnets", JSON.stringify(carnets))
-  }, [carnets])
+  }, [carnets, carnet])
 
   // Fonction ajout de carnet
   const ajout = (inputTitre) => {
@@ -30,7 +31,12 @@ export default function Navbar() {
         setTitre(""),
         alert("Nom du carnet existe! Veuillez choisir un autre nom")
       )
-    tmp.push({ id: uuid(), titre: inputTitre, date: Date.now(), notes: [] })
+    tmp.push({
+      id: uuid(),
+      titre: inputTitre.trim(),
+      date: Date.now(),
+      notes: [],
+    })
     setCarnets(tmp)
     setTitre("")
   }
@@ -38,7 +44,7 @@ export default function Navbar() {
   const modifierTitre = (id) => {
     const carnet = carnets.find((carnet) => carnet.id === id)
     carnet.id = id
-    carnet.titre = titre
+    carnet.titre = titre.trim()
     carnet.date = Date.now()
     localStorage.setItem("carnets", JSON.stringify(carnets))
     setTitre("")
@@ -94,18 +100,18 @@ export default function Navbar() {
   // Fonction supprimer note
 
   function deleteNote(carnetId, noteId) {
-    let rep = window.confirm("vous voulez supprimer cette note ?")
+    let rep = window.confirm("Vous voulez supprimer cette note ?")
     if (rep === false) return
+    const tmp1 = [...carnets]
     const tmp = (carnet.notes = carnet.notes.filter(
       (note) => note.id !== noteId
     ))
-    setCarnet({ notes: tmp, ...carnet })
-    const tmp1 = [...carnets]
     tmp1.forEach((carnet1) => {
       if (carnet1.id === carnetId) {
-        carnet1 = carnet
+        carnet1.notes = carnet1.notes.filter((note) => note.id !== noteId)
       }
     })
+    setCarnet({ notes: tmp, ...carnet })
     setCarnets(tmp1)
     localStorage.setItem("carnets", JSON.stringify(carnets))
   }
@@ -171,7 +177,8 @@ export default function Navbar() {
           />
           {carnets.length ? (
             <button
-              className="btn btn-secondary mx-1"
+              style={{ color: "white" }}
+              className="btn buttonajout mx-1"
               onClick={
                 switchCarnet === "Card"
                   ? () => setSwitchCarnet("List")
@@ -201,12 +208,36 @@ export default function Navbar() {
       </div>
       <div className="app-main">
         <nav className="navbar navbar-light bg-light">
-          <ul>
-            <Link to="/">Home</Link>
-          </ul>
-          <ul>
-            <Link to="statistique">Statistique</Link>
-          </ul>
+          <Nav className="me-auto">
+            <ul className="nav-item">
+              <Nav.Link
+                as={Link}
+                to="/"
+                className="navbar-brand nav-link"
+                style={{
+                  borderRadius: "100%",
+                  backgroundColor: "#864747",
+                  color: "white",
+                }}
+              >
+                Home
+              </Nav.Link>
+            </ul>
+            <ul className="nav-item">
+              <Nav.Link
+                as={Link}
+                to="/statistique"
+                className="navbar-brand nav-link"
+                style={{
+                  borderRadius: "100%",
+                  backgroundColor: "#864747",
+                  color: "white",
+                }}
+              >
+                Statistique
+              </Nav.Link>
+            </ul>
+          </Nav>
           <p className="navbar-brand">Mes Notes ✏</p>
         </nav>
         <div>
