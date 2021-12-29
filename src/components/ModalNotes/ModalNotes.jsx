@@ -29,9 +29,16 @@ export default function ModalNotes({
 
   const ajoutNote = () => {
     const tmp = { ...carnet }
+    if (!inputTitreNote.trim())
+      return (
+        setInputTitreNote(""),
+        setInputMarkdown(""),
+        setCategorie("Secondaire"),
+        alert("Veuillez remplir tous les champs")
+      )
     tmp.notes.push({
       id: uuid(),
-      titre: inputTitreNote,
+      titre: inputTitreNote.trim(),
       categorie: categorie,
       text: inputMarkdown,
     })
@@ -44,7 +51,14 @@ export default function ModalNotes({
 
   return (
     <>
-      <Button onClick={() => setLgShow(true)}>{titreButtonPrincipal}</Button>
+      <Button
+        className={
+          titreButtonPrincipal === "Ajouter Note" ? "buttonajout" : "buttonNote"
+        }
+        onClick={() => setLgShow(true)}
+      >
+        {titreButtonPrincipal}
+      </Button>
       <Modal
         size="lg"
         show={lgShow}

@@ -1,29 +1,57 @@
-import React, { useState } from "react"
-import "bootstrap/dist/css/bootstrap.css"
+import React, { useState, useEffect } from "react"
 import { Link } from "react-router-dom"
+import { Nav } from "react-bootstrap"
 import Diagramme from "./Diagramme"
 import Donut from "./Donut"
 
-export default function Statistique({ carnets }) {
-  const stat = useState(
-    localStorage.getItem("carnets", JSON.stringify(carnets))
-  )
+export default function Statistique() {
+  const [carnets, setCarnets] = useState([])
+
+  useEffect(() => {
+    const donnees = JSON.parse(localStorage.carnets)
+
+    setCarnets(donnees)
+  }, [])
 
   return (
     <div>
       <nav className="navbar navbar-light bg-light">
-        <li>
-          <Link to="/">Home</Link>
-        </li>
-        <li>
-          <Link to="statistique">Statistique</Link>
-        </li>
+        <Nav className="me-auto">
+          <ul className="nav-item">
+            <Nav.Link
+              as={Link}
+              to="/"
+              className="navbar-brand nav-link"
+              style={{
+                borderRadius: "100%",
+                backgroundColor: "#864747",
+                color: "white",
+              }}
+            >
+              Home
+            </Nav.Link>
+          </ul>
+          <ul className="nav-item">
+            <Nav.Link
+              as={Link}
+              to="/statistique"
+              className="navbar-brand nav-link"
+              style={{
+                borderRadius: "100%",
+                backgroundColor: "#864747",
+                color: "white",
+              }}
+            >
+              Statistique
+            </Nav.Link>
+          </ul>
+        </Nav>
         <p className="navbar-brand">Statistique ✏</p>
       </nav>
-      <h3>
-        nombre total de carnets
+      <h3 className="mx-4">
+        nombre total de carnets{" "}
         <span className="nb-carnets badge rounded-pill bg-info text-dark">
-          {stat.length}
+          {carnets.length}
         </span>
       </h3>
       <Diagramme />

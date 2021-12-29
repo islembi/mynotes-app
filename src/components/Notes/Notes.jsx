@@ -72,7 +72,7 @@ export default function Notes({ carnet, carnets, setCarnet, deleteNote }) {
         />
         <button
           onClick={() => deleteNote(carnet.id, note.id)}
-          className="btn btn-sm btn-danger "
+          className="btn btn-sm btn-danger bmodal buttonajout"
         >
           Supprimer
         </button>
@@ -91,7 +91,10 @@ export default function Notes({ carnet, carnets, setCarnet, deleteNote }) {
       <div className="button-add-note">
         {carnet.notes.length ? (
           <button
-            className="btn btn-primary mx-2"
+            style={{
+              color: "white",
+            }}
+            className="btn buttonNote mx-2"
             onClick={
               listCard === "Card"
                 ? () => setListCard("List")
@@ -173,7 +176,7 @@ export default function Notes({ carnet, carnets, setCarnet, deleteNote }) {
                       />
                       <button
                         onClick={() => deleteNote(carnet.id, note.id)}
-                        className="btn btn-sm btn-danger "
+                        className="btn btn-sm btn-danger bmodal "
                       >
                         Supprimer
                       </button>
