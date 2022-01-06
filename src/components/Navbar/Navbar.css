@@ -465,7 +465,7 @@ h1,
 }
 
 .dashboard-toolbar-stat {
-  min-height: 84px;
+  min-height: 50px;
   background-color: #dfdfdf;
   display: -webkit-box;
   display: -webkit-flex;

@@ -48,7 +48,7 @@ export default function Donut() {
   }
   return (
     <div className="Appli">
-      <h6>pourcentage catégorie</h6>
+      <h6>Pourcentage Notes</h6>
       <DonutChart
         width={500}
         onMouseEnter={(item) => reactDonutChartOnMouseEnter(item)}
