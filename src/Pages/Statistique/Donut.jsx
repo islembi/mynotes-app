@@ -10,32 +10,29 @@ export default function Donut() {
 
     setCarnets(donnees)
   }, [])
-  function nbrNote(tab, text) {
-    let nbr = 0
-    for (let i = 0; i < tab.length; i++) {
-      for (let j = 0; j < tab[i].notes.length; j++) {
-        if (tab[i].notes[j].categorie === text) nbr = nbr + 1
-      }
+
+  function getRandomColor() {
+    var letters = "0123456789ABCDEF"
+    var color = "#"
+    for (var i = 0; i < 6; i++) {
+      color += letters[Math.floor(Math.random() * 16)]
     }
-    return nbr
+    return color
   }
-  const reactDonutChartdata = [
-    {
-      label: "secondaire",
-      value: nbrNote(carnets, "Secondaire"),
-      color: "#00E396",
-    },
-    {
-      label: "important",
-      value: nbrNote(carnets, "Important"),
-      color: "#FEB019",
-    },
-    {
-      label: "urgent",
-      value: nbrNote(carnets, "Urgent"),
-      color: "#FF4560",
-    },
-  ]
+  function data(tab) {
+    let tab1 = []
+    for (let i = 0; i < tab.length; i++) {
+      tab1.push({
+        label: tab[i].titre,
+        value: tab[i].notes.length,
+        color: getRandomColor(),
+      })
+    }
+    return tab1
+  }
+
+  const reactDonutChartdata = data(carnets)
+  console.log(reactDonutChartdata)
   const reactDonutChartBackgroundColor = ["#00E396", "#FEB019", "#FF4560"]
   const reactDonutChartInnerRadius = 0.5
   const reactDonutChartSelectedOffset = 0.04

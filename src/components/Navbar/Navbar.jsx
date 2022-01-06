@@ -69,6 +69,7 @@ export default function Navbar() {
   let ligneCarnet = rechercher(rech, data).map((carnet) => {
     return (
       <div
+        className="dashboard-nav-item active sidebar-carnet"
         key={carnet.id}
         onClick={() => [setCarnet(carnet), setActiveCarnet(true)]}
       >
@@ -121,6 +122,7 @@ export default function Navbar() {
   let ligneCarnetListe = rechercher(rech, data).map((carnet) => {
     return (
       <div
+        className="dashboard-nav-item sidebar-carnet"
         key={carnet.id}
         onClick={() => [setCarnet(carnet), setActiveCarnet(true)]}
       >
@@ -164,96 +166,109 @@ export default function Navbar() {
   })
 
   return (
-    <div className="sidebar">
-      <div className="app-sidebar text-center">
-        <div className="sidebar-container">
-          <div className="sidebar-logo">Projet NOTES</div>
-          {/* Modal ajout du carnet */}
-          <ModalComp
-            titreButton="Ajouter un Carnet"
-            titre={titre}
-            setTitre={setTitre}
-            ajout={ajout}
-          />
-          {carnets.length ? (
-            <button
-              style={{ color: "white" }}
-              className="btn buttonajout mx-1"
-              onClick={
-                switchCarnet === "Card"
-                  ? () => setSwitchCarnet("List")
-                  : () => setSwitchCarnet("Card")
-              }
-            >
-              {switchCarnet === "Card" ? "Mode List" : "Mode Card"}
-            </button>
-          ) : null}
-          {/* Input pour la recherche avec titre carnet */}
-          <ul className="sidebar-navigation">
-            <input
-              type="search"
-              value={rech}
-              onChange={(e) => {
-                setRech(e.target.value)
-              }}
-              className="form-control"
-              placeholder="Rechercher ..."
-            />
-            {/* Display des carnet  */}
-            <div className="sidebar-carnet">
-              {switchCarnet === "Card" ? ligneCarnet : ligneCarnetListe}
+    <>
+      <div className="dashboard">
+        <div className="dashboard-nav">
+          <header>
+            <div className="menu-toggle">
+              <i className="fas fa-bars"></i>
             </div>
-          </ul>
-        </div>
-      </div>
-      <div className="app-main">
-        <nav className="navbar navbar-light bg-light">
-          <Nav className="me-auto">
-            <ul className="nav-item">
-              <Nav.Link
-                as={Link}
-                to="/"
-                className="navbar-brand nav-link"
-                style={{
-                  borderRadius: "100%",
-                  backgroundColor: "#864747",
-                  color: "white",
-                }}
-              >
-                Home
-              </Nav.Link>
-            </ul>
-            <ul className="nav-item">
-              <Nav.Link
-                as={Link}
-                to="/statistique"
-                className="navbar-brand nav-link"
-                style={{
-                  borderRadius: "100%",
-                  backgroundColor: "#864747",
-                  color: "white",
-                }}
-              >
-                Statistique
-              </Nav.Link>
-            </ul>
-          </Nav>
-          <p className="navbar-brand">Mes Notes ✏</p>
-        </nav>
-        <div>
-          <div className="container-notes">
-            {/* Display des notes */}
-            {activeCarnet && (
-              <Notes
-                setCarnet={setCarnet}
-                carnet={carnet}
-                carnets={carnets}
-                deleteNote={deleteNote}
+            <h2> Mes Notes</h2>
+            {/* Input pour la recherche avec titre carnet */}
+          </header>
+          <nav className="dashboard-nav-list">
+            <div className="dashboard-nav-item">
+              <ModalComp
+                titreButton="Ajouter un Carnet"
+                titre={titre}
+                setTitre={setTitre}
+                ajout={ajout}
               />
-            )}
+              {carnets.length ? (
+                <button
+                  style={{ color: "white" }}
+                  className="btn buttonajout mx-1"
+                  onClick={
+                    switchCarnet === "Card"
+                      ? () => setSwitchCarnet("List")
+                      : () => setSwitchCarnet("Card")
+                  }
+                >
+                  {switchCarnet === "Card" ? "Mode List" : "Mode Card"}
+                </button>
+              ) : null}
+            </div>
+            <div className="dashboard-nav-item">
+              <input
+                type="search"
+                value={rech}
+                onChange={(e) => {
+                  setRech(e.target.value)
+                }}
+                className="form-control"
+                placeholder="Rechercher ..."
+              />
+            </div>
+
+            {switchCarnet === "Card" ? ligneCarnet : ligneCarnetListe}
+          </nav>
+        </div>
+        <div className="dashboard-app">
+          <header className="dashboard-toolbar">
+            <div className="menu-toggle">
+              <i className="fas fa-bars"></i>
+            </div>
+            <nav className="dashboard-nav-list">
+              <div className="dashboard-nav-item">
+                <Nav className="me-auto">
+                  <ul className="nav-item">
+                    <Nav.Link
+                      as={Link}
+                      to="/"
+                      className="navbar-brand nav-link"
+                      style={{
+                        borderRadius: "100%",
+                        color: "black",
+                      }}
+                    >
+                      Home
+                    </Nav.Link>
+                  </ul>
+                  <ul className="nav-item">
+                    <Nav.Link
+                      as={Link}
+                      to="/statistique"
+                      className="navbar-brand nav-link"
+                      style={{
+                        borderRadius: "100%",
+                        color: "black",
+                      }}
+                    >
+                      Statistique
+                    </Nav.Link>
+                  </ul>
+                </Nav>
+              </div>
+            </nav>
+          </header>
+          <div className="dashboard-content">
+            <div className="container">
+              <div className="container-notes">
+                {/* Display des notes */}
+                {activeCarnet && (
+                  <Notes
+                    setCarnet={setCarnet}
+                    carnet={carnet}
+                    carnets={carnets}
+                    deleteNote={deleteNote}
+                  />
+                )}
+              </div>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+      {/* fin */}
+    </>
   )
 }

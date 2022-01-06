@@ -15,39 +15,40 @@ export default function Statistique() {
 
   return (
     <div>
-      <nav className="navbar navbar-light bg-light">
-        <Nav className="me-auto">
-          <ul className="nav-item">
-            <Nav.Link
-              as={Link}
-              to="/"
-              className="navbar-brand nav-link"
-              style={{
-                borderRadius: "100%",
-                backgroundColor: "#864747",
-                color: "white",
-              }}
-            >
-              Home
-            </Nav.Link>
-          </ul>
-          <ul className="nav-item">
-            <Nav.Link
-              as={Link}
-              to="/statistique"
-              className="navbar-brand nav-link"
-              style={{
-                borderRadius: "100%",
-                backgroundColor: "#864747",
-                color: "white",
-              }}
-            >
-              Statistique
-            </Nav.Link>
-          </ul>
-        </Nav>
-        <p className="navbar-brand">Statistique ✏</p>
-      </nav>
+      <header className="dashboard-toolbar-stat">
+        <nav className="dashboard-nav-list">
+          <div className="dashboard-nav-item">
+            <Nav className="me-auto">
+              <ul className="nav-item">
+                <Nav.Link
+                  as={Link}
+                  to="/"
+                  className="navbar-brand nav-link"
+                  style={{
+                    borderRadius: "100%",
+                    color: "black",
+                  }}
+                >
+                  Home
+                </Nav.Link>
+              </ul>
+              <ul className="nav-item">
+                <Nav.Link
+                  as={Link}
+                  to="/statistique"
+                  className="navbar-brand nav-link"
+                  style={{
+                    borderRadius: "100%",
+                    color: "black",
+                  }}
+                >
+                  Statistique
+                </Nav.Link>
+              </ul>
+            </Nav>
+          </div>
+        </nav>
+      </header>
       <h3 className="mx-4">
         nombre total de carnets{" "}
         <span className="nb-carnets badge rounded-pill bg-info text-dark">

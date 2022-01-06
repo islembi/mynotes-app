@@ -13,12 +13,19 @@ export default function Notes({ carnet, carnets, setCarnet, deleteNote }) {
   // const tmp = carnet.notes
 
   // Fonction Modifier Note
-  const modifierNote = (id, inputTitreNote, categorie, inputMarkdown) => {
+  const modifierNote = (
+    id,
+    inputTitreNote,
+    categorie,
+    inputMarkdown,
+    colorNote
+  ) => {
     const findNote = carnet.notes.find((x) => x.id === id)
     findNote.titre = inputTitreNote
     findNote.categorie = categorie
     findNote.text = inputMarkdown
     findNote.id = id
+    findNote.colorNote = colorNote
     setCarnet({ notes: findNote, ...carnet })
     localStorage.setItem("carnets", JSON.stringify(carnets))
   }
@@ -81,6 +88,22 @@ export default function Notes({ carnet, carnets, setCarnet, deleteNote }) {
     )
   })
 
+  function listCategorie(tab) {
+    let tab1 = []
+    for (let i = 0; i < tab.length; i++) {
+      let j = 0
+      while (j < tab1.length) {
+        if (tab1[j] === tab[i].categorie) break
+        j++
+      }
+
+      if (j === tab1.length) tab1.push(tab[i].categorie)
+    }
+    return tab1
+  }
+
+  let listeCategories = listCategorie(carnet.notes)
+
   //recuperation de ligneNotes catégorie
   return (
     <div>
@@ -132,9 +155,13 @@ export default function Notes({ carnet, carnets, setCarnet, deleteNote }) {
           className="select-note"
         >
           <option value="">recherche par catégorie</option>
-          <option value="Secondaire">Secondaire</option>
-          <option value="Important">Important</option>
-          <option value="Urgent">Urgent</option>
+          {listeCategories.map((categorie) => {
+            return (
+              <option key={"list" + categorie} value={categorie}>
+                {categorie}
+              </option>
+            )
+          })}
         </Form.Select>
       </div>
       {/* mode card */}
@@ -149,13 +176,7 @@ export default function Notes({ carnet, carnets, setCarnet, deleteNote }) {
                     <div
                       className="card card-just-text"
                       data-background="color"
-                      data-color={
-                        note.categorie === "Secondaire"
-                          ? "green"
-                          : note.categorie === "Important"
-                          ? "yellow"
-                          : "orange"
-                      }
+                      data-color={note.colorNote}
                       data-radius="none"
                     >
                       <div className="content">

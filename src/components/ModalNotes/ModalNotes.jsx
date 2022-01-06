@@ -16,13 +16,15 @@ export default function ModalNotes({
   const [lgShow, setLgShow] = useState(false)
   const [inputMarkdown, setInputMarkdown] = useState("")
   const [inputTitreNote, setInputTitreNote] = useState("")
-  const [categorie, setCategorie] = useState("Secondaire")
+  const [categorie, setCategorie] = useState("")
+  const [colorNote, setColorNote] = useState("orange")
 
   useEffect(() => {
     if (note) {
       setInputTitreNote(note.titre)
       setInputMarkdown(note.text)
       setCategorie(note.categorie)
+      setColorNote(note.colorNote)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
@@ -33,20 +35,22 @@ export default function ModalNotes({
       return (
         setInputTitreNote(""),
         setInputMarkdown(""),
-        setCategorie("Secondaire"),
+        setCategorie(""),
         alert("Veuillez remplir tous les champs")
       )
     tmp.notes.push({
       id: uuid(),
       titre: inputTitreNote.trim(),
       categorie: categorie,
+      colorNote: colorNote,
       text: inputMarkdown,
     })
     setCarnet(tmp)
     localStorage.setItem("carnets", JSON.stringify(carnets))
     setInputTitreNote("")
     setInputMarkdown("")
-    setCategorie("Secondaire")
+    setCategorie("")
+    setColorNote("orange")
   }
 
   return (
@@ -83,14 +87,40 @@ export default function ModalNotes({
             <InputGroup.Text id="inputGroup-sizing-lg">
               Catégorie
             </InputGroup.Text>
-            <Form.Select
+            <FormControl
               value={categorie}
               onChange={(e) => setCategorie(e.target.value)}
+              aria-label="Saisir un titre de note"
+              aria-describedby="inputGroup-sizing-lg"
+            />
+          </InputGroup>
+          <InputGroup size="lg">
+            <InputGroup.Text id="inputGroup-sizing-lg">
+              Couleur De La Note
+            </InputGroup.Text>
+            <Form.Select
+              value={colorNote}
+              onChange={(e) => setColorNote(e.target.value)}
               aria-label="Default select example"
             >
-              <option value="Secondaire">Secondaire</option>
-              <option value="Important">Important</option>
-              <option value="Urgent">Urgent</option>
+              <option style={{ color: "#ff8f5e" }} value="orange">
+                Orange
+              </option>
+              <option style={{ color: "#baa9ba" }} value="purple">
+                Purple
+              </option>
+              <option style={{ color: "#d5e5a3" }} value="green">
+                Green
+              </option>
+              <option style={{ color: "#ffe28c" }} value="yellow">
+                Yellow
+              </option>
+              <option style={{ color: "#b8d8d8" }} value="blue">
+                Blue
+              </option>
+              <option style={{ color: "#FFC0CB" }} value="pink">
+                Pink
+              </option>
             </Form.Select>
           </InputGroup>
         </Modal.Header>
@@ -123,7 +153,8 @@ export default function ModalNotes({
                       note.id,
                       inputTitreNote,
                       categorie,
-                      inputMarkdown
+                      inputMarkdown,
+                      colorNote
                     ),
                     setLgShow(false),
                   ]

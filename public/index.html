@@ -5,6 +5,7 @@
     <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#000000" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.0/css/all.min.css">
     <meta
       name="description"
       content="Web site created using create-react-app"
@@ -39,16 +40,19 @@
       To begin the development, run `npm start` or `yarn start`.
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script>
-      function displayNotes() {
-        var x = document.getElementById("myNotes");
-        if (x.style.display === "none") {
-          x.style.display = "block";
-        } else {
-          x.style.display = "none";
-        }
-      }
-      </script>
+     const mobileScreen = window.matchMedia("(max-width: 990px )");
+      $(document).ready(function () {
+          $(".menu-toggle").click(function () {
+              if (mobileScreen.matches) {
+                  $(".dashboard-nav").toggleClass("mobile-show");
+              } else {
+                  $(".dashboard").toggleClass("dashboard-compact");
+              }
+          });
+      });
+    </script>
   </body>
 </html>

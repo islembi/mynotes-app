@@ -179,3 +179,6 @@ a:focus {
 .card[data-color="orange"] .category {
   color: #e95e37;
 }
+.card[data-color="pink"] {
+  background: #FFC0CB;
+}
