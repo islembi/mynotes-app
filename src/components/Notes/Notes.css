@@ -29,7 +29,8 @@
 }
 
 .card-big-shadow {
-  max-width: 350px;
+  max-width: 400px;
+  min-width: 350px;
   position: relative;
 }
 
@@ -180,5 +181,5 @@ a:focus {
   color: #e95e37;
 }
 .card[data-color="pink"] {
-  background: #FFC0CB;
+  background: #ffc0cb;
 }

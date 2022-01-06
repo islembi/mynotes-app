@@ -49,14 +49,17 @@ export default function Statistique() {
           </div>
         </nav>
       </header>
-      <h3 className="mx-4">
-        nombre total de carnets{" "}
-        <span className="nb-carnets badge rounded-pill bg-info text-dark">
-          {carnets.length}
-        </span>
-      </h3>
-      <Diagramme />
-      <Donut />
+      <div style={{ marginTop: "100px", marginLeft: "10px" }}>
+        <h3>
+          nombre total de carnets{" "}
+          <span className="nb-carnets badge rounded-pill bg-info text-dark">
+            {carnets.length}
+          </span>
+        </h3>
+        <h6>Nombre de notes par carnet</h6>
+        <Diagramme />
+        <Donut />
+      </div>
     </div>
   )
 }

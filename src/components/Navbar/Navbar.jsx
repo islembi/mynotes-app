@@ -173,7 +173,7 @@ export default function Navbar() {
             <div className="menu-toggle">
               <i className="fas fa-bars"></i>
             </div>
-            <h2> Mes Notes</h2>
+            <h2> Mes Notes </h2>
             {/* Input pour la recherche avec titre carnet */}
           </header>
           <nav className="dashboard-nav-list">
